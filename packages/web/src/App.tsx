@@ -5,6 +5,8 @@ import ky from 'ky'
 import './styles/tailwind.css'
 import './styles/global.css'
 
+import SupervisorNotifications from './components/SupervisorNotifications'
+
 async function getHealth() {
   const json = await ky.get('http://localhost:8888/api/health').json()
 
@@ -16,5 +18,5 @@ export default function App() {
     getHealth()
   })
 
-  return <div className="text-red-500 text-2xl">hello world</div>
+  return <SupervisorNotifications />
 }
