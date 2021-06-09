@@ -1,0 +1,7 @@
+dist/
+.env
+.env.stage
+.env.production
+combined.log
+error.log
+yarn-error.log

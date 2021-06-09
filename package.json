@@ -1,0 +1,32 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "format": "npm run prettier -- --write",
+    "prettier": "prettier \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|mdx|graphql)\"",
+    "prettier:validate": "npm run prettier -- --list-different"
+  },
+  "lint-staged": {
+    "**/*.+(js|jsx|ts|tsx|json|yml|yaml|md|mdx|graphql)": [
+      "yarn format",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^8.1.0",
+    "commitlint": "^8.1.0",
+    "husky": "^3.0.3",
+    "lerna": "^3.20.2",
+    "lint-staged": "^9.2.1",
+    "prettier": "^1.18.2"
+  },
+  "name": "boilerplate"
+}

@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+yarn-error.log
+.env
+packages/api/.env
+packages/web/.env
+.*.sw?
+vendor
+.vscode
+*.out
+.bundle
+.ruby-version
