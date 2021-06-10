@@ -1,17 +1,14 @@
-import cookieParser from 'cookie-parser'
 import express, { Request, Response } from 'express'
-import session from 'express-session'
 import cors from 'cors'
-import { last } from 'lodash'
 
-import { __prod__, COOKIE_NAME, ALLOWED_DOMAINS } from './constants'
+import { __prod__, ALLOWED_DOMAINS } from './constants'
 import supervisors from './endpoints/supervisors'
 import submit from './endpoints/submit'
 import health from './endpoints/health'
 
-require('dotenv').config({
-  path: `.env`,
-})
+// require('dotenv').config({
+//   path: `.env`,
+// })
 
 const app = express()
 
@@ -30,22 +27,6 @@ export function createContext({
   }
 }
 
-app.use((req, _, next) => {
-  const cookie = req.headers.cookie
-
-  // console.log('Request Headers:', req.headers)
-
-  if (cookie) {
-    try {
-      const cookies = cookie.split(' ')
-      const qid = last(cookies)!.split('=')[1]
-      req.headers.cookie = `qid=${qid}`
-    } catch {}
-  }
-
-  return next()
-})
-
 app.use(
   cors({
     origin: (
@@ -63,22 +44,6 @@ app.use(
     credentials: true,
   })
 )
-
-app.use(
-  session({
-    name: COOKIE_NAME,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years
-      httpOnly: true,
-      sameSite: 'lax', // csrf
-    },
-    saveUninitialized: false,
-    secret: process.env.SESSION_SECRET!,
-    resave: false,
-  })
-)
-
-app.use(cookieParser())
 
 app.use(express.json({ limit: '50mb' }))
 app.use(express.urlencoded({ limit: '50mb', extended: true }))
