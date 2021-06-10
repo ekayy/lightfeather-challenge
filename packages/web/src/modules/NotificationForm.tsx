@@ -59,11 +59,9 @@ export default function NotificationFormContainer() {
     let ignore = false
 
     async function getSupervisors() {
-      // const json: Supervisor[] = await ky
-      //   .get('http://localhost:8888/api/supervisors')
-      //   .json()
-
-      const json = ['b - Cremin, Elijah', 'b - Denesik, Kobe']
+      const json: string[] = await ky
+        .get('http://localhost:8888/api/supervisors')
+        .json()
 
       if (!ignore) setSupervisors(json)
     }
