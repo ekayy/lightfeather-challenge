@@ -48,7 +48,7 @@ export default function PhoneInput({ ...props }: PhoneInputProps) {
         onChange={e => setValue(e.target.value.replace(/\D/g, ''))}
       />
 
-      <InputError meta={meta} />
+      <InputError testId={`error.${props.id}`} meta={meta} />
     </>
   )
 }

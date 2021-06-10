@@ -74,4 +74,19 @@ describe('NotificationForm', () => {
       )
     )
   })
+
+  test('should show phone error message if type non number characters in phone', async () => {
+    userEvent.type(screen.getByLabelText(/first name/i), 'John')
+    userEvent.type(screen.getByLabelText(/last name/i), 'McClane')
+    userEvent.type(screen.getByLabelText(/phone number/i), '408123abcd')
+    userEvent.selectOptions(
+      screen.getByDisplayValue(/select.../i),
+      'b - Cremin, Elijah'
+    )
+    userEvent.click(screen.getByRole('button', { name: /submit/i }))
+
+    expect(screen.getByTestId('error.phone')).toBeInTheDocument()
+
+    await waitFor(() => expect(handleSubmit).not.toHaveBeenCalledWith())
+  })
 })
