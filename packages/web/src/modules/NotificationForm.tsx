@@ -4,6 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
 import TextInput from '../components/TextInput'
+import SelectInput from '../components/SelectInput'
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
@@ -120,21 +121,14 @@ export default function NotificationForm({ onSubmit }: { onSubmit?: any }) {
           </div>
 
           <div className="flex flex-col justify-center">
-            <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-              htmlFor="supervisor"
-            >
-              Supervisor
-            </label>
-            <Field id="supervisor" name="supervisor" as="select">
+            <SelectInput name="supervisor" label="Supervisor">
               <option value="">Select...</option>
               {supervisors.map(s => (
                 <option key={s} value={s}>
                   {s}
                 </option>
               ))}
-            </Field>
-            <ErrorMessage name="supervisor" />
+            </SelectInput>
           </div>
 
           <div className="mt-3">
