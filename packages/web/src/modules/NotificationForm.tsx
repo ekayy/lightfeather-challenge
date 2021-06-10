@@ -6,9 +6,12 @@ import * as Yup from 'yup'
 import TextInput from '../components/TextInput'
 import SelectInput from '../components/SelectInput'
 
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
-
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
+interface NotificationFormProps {
+  handleSubmit: any
+  supervisors: string[]
+}
 
 interface FormValues {
   firstName: string
@@ -45,7 +48,7 @@ const validationSchema = Yup.object().shape(
   [['phone', 'email']]
 )
 
-export default function NotificationForm({ onSubmit }: { onSubmit?: any }) {
+export default function NotificationFormContainer() {
   const [supervisors, setSupervisors] = useState<string[]>([])
 
   useEffect(() => {
@@ -69,11 +72,26 @@ export default function NotificationForm({ onSubmit }: { onSubmit?: any }) {
   }, [])
 
   const handleSubmit = async (values: FormValues) => {
-    console.log(JSON.stringify(values, null, 2))
-    await sleep(500)
-    onSubmit(values)
+    const response = await ky
+      .post('http://localhost:8888/api/submit', {
+        json: {
+          ...values,
+        },
+      })
+      .json()
+
+    console.log('form submitted', response)
   }
 
+  return (
+    <NotificationForm handleSubmit={handleSubmit} supervisors={supervisors} />
+  )
+}
+
+export function NotificationForm({
+  handleSubmit,
+  supervisors,
+}: NotificationFormProps) {
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <h1 className="mb-10 text-2xl">Notifications Form</h1>
