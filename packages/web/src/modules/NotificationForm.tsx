@@ -7,8 +7,6 @@ import TextInput from '../components/TextInput'
 import SelectInput from '../components/SelectInput'
 import PhoneInput from '../components/PhoneInput'
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
-
 interface NotificationFormProps {
   handleSubmit: any
   supervisors: string[]
@@ -37,12 +35,17 @@ const validationSchema = Yup.object().shape(
       then: Yup.string()
         .email('Invalid email address')
         .required('Please provide email and/or phone #'),
+      otherwise: Yup.string().email('Invalid email address'),
     }),
     phone: Yup.string().when('email', {
       is: email => !email || email.length === 0,
       then: Yup.string()
-        .matches(phoneRegExp, 'Phone number is not valid')
+        .matches(/\d{10}/i, 'Please provide valid phone #')
         .required('Please provide email and/or phone #'),
+      otherwise: Yup.string().matches(
+        /\d{10}/i,
+        'Please provide valid phone #'
+      ),
     }),
     supervisor: Yup.string().required('Required'),
   },

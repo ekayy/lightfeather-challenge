@@ -27,7 +27,8 @@ const phoneNumberMask = [
 ]
 
 export default function PhoneInput({ ...props }: PhoneInputProps) {
-  const [field, meta] = useField(props)
+  const [field, meta, helpers] = useField(props)
+  const { setValue } = helpers
 
   return (
     <>
@@ -44,6 +45,7 @@ export default function PhoneInput({ ...props }: PhoneInputProps) {
         mask={phoneNumberMask}
         placeholder="(999) 999-9999"
         type="text"
+        onChange={e => setValue(e.target.value.replace(/\D/g, ''))}
       />
 
       <InputError meta={meta} />

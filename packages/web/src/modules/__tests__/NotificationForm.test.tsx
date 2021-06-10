@@ -54,7 +54,7 @@ describe('NotificationForm', () => {
   test('should submit form if at least phone filled', async () => {
     userEvent.type(screen.getByLabelText(/first name/i), 'John')
     userEvent.type(screen.getByLabelText(/last name/i), 'McClane')
-    userEvent.type(screen.getByPlaceholderText(/phone/i), '408-123-4567')
+    userEvent.type(screen.getByLabelText(/phone number/i), '4081234567')
     userEvent.selectOptions(
       screen.getByDisplayValue(/select.../i),
       'b - Cremin, Elijah'
@@ -67,7 +67,7 @@ describe('NotificationForm', () => {
           firstName: 'John',
           lastName: 'McClane',
           email: '',
-          phone: '408-123-4567',
+          phone: '4081234567',
           supervisor: 'b - Cremin, Elijah',
         },
         expect.anything()
