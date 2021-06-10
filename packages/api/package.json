@@ -12,6 +12,7 @@
     "express-session": "^1.17.1",
     "got": "^11.8.2",
     "mkdirp": "^1.0.4",
+    "nock": "^13.1.0",
     "query-string": "^7.0.0",
     "reflect-metadata": "^0.1.13",
     "shortid": "^2.2.15"
@@ -32,6 +33,7 @@
     "@types/got": "^9.6.11",
     "@types/jest": "^26.0.23",
     "@types/mkdirp": "^1.0.0",
+    "@types/nock": "^11.1.0",
     "@types/node": "^13.13.4",
     "@types/shortid": "^0.0.29",
     "@types/supertest": "^2.0.11",
