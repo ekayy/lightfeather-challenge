@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import ky from 'ky'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 
 import TextInput from '../components/TextInput'
 import SelectInput from '../components/SelectInput'
+import PhoneInput from '../components/PhoneInput'
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -127,13 +128,7 @@ export function NotificationForm({
               </div>
 
               <div className="w-full md:w-1/2 px-3">
-                <Field
-                  id="phone"
-                  name="phone"
-                  type="text"
-                  placeholder="Phone Number"
-                />
-                <ErrorMessage name="phone" />
+                <PhoneInput id="phone" name="phone" label="Phone Number" />
               </div>
             </div>
           </div>
