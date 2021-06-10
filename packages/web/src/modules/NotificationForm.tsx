@@ -3,6 +3,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik'
 import ky from 'ky'
 import * as Yup from 'yup'
 
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
 interface FormValues {
   firstName: string
   lastName: string
@@ -38,7 +40,7 @@ const validationSchema = Yup.object().shape(
   [['phone', 'email']]
 )
 
-export default function SupervisorNotifications() {
+export default function NotificationForm({ onSubmit }: { onSubmit?: any }) {
   const [supervisors, setSupervisors] = useState<string[]>([])
 
   useEffect(() => {
@@ -61,8 +63,10 @@ export default function SupervisorNotifications() {
     }
   }, [])
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = async (values: FormValues) => {
     console.log(JSON.stringify(values, null, 2))
+    await sleep(500)
+    onSubmit(values)
   }
 
   return (
@@ -89,7 +93,7 @@ export default function SupervisorNotifications() {
               >
                 First Name
               </label>
-              <Field name="firstName" type="text" />
+              <Field id="firstName" name="firstName" type="text" />
               <ErrorMessage name="firstName" />
             </div>
 
@@ -100,7 +104,7 @@ export default function SupervisorNotifications() {
               >
                 Last Name
               </label>
-              <Field name="lastName" type="text" />
+              <Field id="lastName" name="lastName" type="text" />
               <ErrorMessage name="lastName" />
             </div>
           </div>
@@ -110,12 +114,22 @@ export default function SupervisorNotifications() {
 
             <div className="flex -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <Field name="email" type="text" placeholder="Email Address" />
+                <Field
+                  id="email"
+                  name="email"
+                  type="text"
+                  placeholder="Email Address"
+                />
                 <ErrorMessage name="email" />
               </div>
 
               <div className="w-full md:w-1/2 px-3">
-                <Field name="phone" type="text" placeholder="Phone Number" />
+                <Field
+                  id="phone"
+                  name="phone"
+                  type="text"
+                  placeholder="Phone Number"
+                />
                 <ErrorMessage name="phone" />
               </div>
             </div>
@@ -128,10 +142,12 @@ export default function SupervisorNotifications() {
             >
               Supervisor
             </label>
-            <Field name="supervisor" as="select">
+            <Field id="supervisor" name="supervisor" as="select">
               <option value="">Select...</option>
               {supervisors.map(s => (
-                <option key={s}>{s}</option>
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </Field>
             <ErrorMessage name="supervisor" />

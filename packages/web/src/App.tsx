@@ -5,7 +5,7 @@ import ky from 'ky'
 import './styles/tailwind.css'
 import './styles/global.css'
 
-import SupervisorNotifications from './components/SupervisorNotifications'
+import NotificationForm from './modules/NotificationForm'
 
 async function getHealth() {
   const json = await ky.get('http://localhost:8888/api/health').json()
@@ -18,5 +18,5 @@ export default function App() {
     getHealth()
   })
 
-  return <SupervisorNotifications />
+  return <NotificationForm />
 }
