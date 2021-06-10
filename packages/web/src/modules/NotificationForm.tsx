@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
 import ky from 'ky'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
+import TextInput from '../components/TextInput'
+
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 interface FormValues {
   firstName: string
@@ -31,9 +35,9 @@ const validationSchema = Yup.object().shape(
     }),
     phone: Yup.string().when('email', {
       is: email => !email || email.length === 0,
-      then: Yup.string().required(
-        'Please provide either email or phone number'
-      ),
+      then: Yup.string()
+        .matches(phoneRegExp, 'Phone number is not valid')
+        .required('Please provide either email or phone number'),
     }),
     supervisor: Yup.string().required('Required'),
   },
@@ -85,42 +89,22 @@ export default function NotificationForm({ onSubmit }: { onSubmit?: any }) {
         onSubmit={handleSubmit}
       >
         <Form className="w-full max-w-lg">
-          <div className="flex -mx-3 mb-6">
+          <div className="flex -mx-3 mb-1">
             <div className="w-full md:w-1/2 px-3 mb-3 md:mb-0">
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="firstName"
-              >
-                First Name
-              </label>
-              <Field id="firstName" name="firstName" type="text" />
-              <ErrorMessage name="firstName" />
+              <TextInput id="firstName" name="firstName" label="First Name" />
             </div>
 
             <div className="w-full md:w-1/2 px-3">
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="lastName"
-              >
-                Last Name
-              </label>
-              <Field id="lastName" name="lastName" type="text" />
-              <ErrorMessage name="lastName" />
+              <TextInput id="lastName" name="lastName" label="Last Name" />
             </div>
           </div>
 
           <div>
             <p className="mb-3">How would you prefer to be notified?</p>
 
-            <div className="flex -mx-3 mb-6">
+            <div className="flex -mx-3 mb-1">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                <Field
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email Address"
-                />
-                <ErrorMessage name="email" />
+                <TextInput id="email" name="email" label="Email" />
               </div>
 
               <div className="w-full md:w-1/2 px-3">
