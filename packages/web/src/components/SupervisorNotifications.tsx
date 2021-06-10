@@ -11,19 +11,32 @@ interface FormValues {
   supervisor: string
 }
 
-const validationSchema = Yup.object({
-  firstName: Yup.string()
-    .max(15, 'Must be 20 characters or less')
-    .matches(/[a-z]/i, 'Must only contain letters')
-    .required('Required'),
-  lastName: Yup.string()
-    .max(20, 'Must be 20 characters or less')
-    .matches(/[a-z]/i, 'Must only contain letters')
-    .required('Required'),
-  email: Yup.string().email('Invalid email address'),
-  phone: Yup.string(),
-  supervisor: Yup.string().required('Required'),
-})
+const validationSchema = Yup.object().shape(
+  {
+    firstName: Yup.string()
+      .max(15, 'Must be 20 characters or less')
+      .matches(/[a-z]/i, 'Must only contain letters')
+      .required('Required'),
+    lastName: Yup.string()
+      .max(20, 'Must be 20 characters or less')
+      .matches(/[a-z]/i, 'Must only contain letters')
+      .required('Required'),
+    email: Yup.string().when('phone', {
+      is: phone => !phone || phone.length === 0,
+      then: Yup.string()
+        .email('Invalid email address')
+        .required('Please provide either email or phone number'),
+    }),
+    phone: Yup.string().when('email', {
+      is: email => !email || email.length === 0,
+      then: Yup.string().required(
+        'Please provide either email or phone number'
+      ),
+    }),
+    supervisor: Yup.string().required('Required'),
+  },
+  [['phone', 'email']]
+)
 
 export default function SupervisorNotifications() {
   const [supervisors, setSupervisors] = useState<string[]>([])
@@ -68,7 +81,7 @@ export default function SupervisorNotifications() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <Form className="flex-col">
+          <Form className="w-full max-w-lg">
             <div>
               <label htmlFor="firstName">First Name</label>
               <Field name="firstName" type="text" />
@@ -116,7 +129,12 @@ export default function SupervisorNotifications() {
               <ErrorMessage name="supervisor" />
             </div>
 
-            <button type="submit">Sign In</button>
+            <button
+              className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+              type="submit"
+            >
+              Sign In
+            </button>
           </Form>
         </Formik>
       </div>
