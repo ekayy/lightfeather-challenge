@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField } from 'formik'
+import InputError from './InputError'
 
 interface SelectInputProps {
   name: string
@@ -18,12 +19,7 @@ export default function SelectInput({ ...props }: SelectInputProps) {
         {props.label}
       </label>
       <select {...field} {...props} />
-      <span
-        className="block tracking-wide text-xs font-bold mb-2"
-        style={{ color: 'red' }}
-      >
-        {meta.touched && meta.error}
-      </span>
+      <InputError meta={meta} />
     </>
   )
 }

@@ -36,13 +36,13 @@ const validationSchema = Yup.object().shape(
       is: phone => !phone || phone.length === 0,
       then: Yup.string()
         .email('Invalid email address')
-        .required('Please provide either email or phone number'),
+        .required('Please provide email and/or phone #'),
     }),
     phone: Yup.string().when('email', {
       is: email => !email || email.length === 0,
       then: Yup.string()
         .matches(phoneRegExp, 'Phone number is not valid')
-        .required('Please provide either email or phone number'),
+        .required('Please provide email and/or phone #'),
     }),
     supervisor: Yup.string().required('Required'),
   },
@@ -120,7 +120,9 @@ export function NotificationForm({
           </div>
 
           <div>
-            <p className="mb-3">How would you prefer to be notified?</p>
+            <p className="mb-3">
+              How would you prefer to be notified? (Fill either or both)
+            </p>
 
             <div className="flex -mx-3 mb-1">
               <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">

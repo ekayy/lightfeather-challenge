@@ -1,6 +1,7 @@
 import React from 'react'
 import { useField } from 'formik'
 import MaskedInput from 'react-text-mask'
+import InputError from './InputError'
 
 interface PhoneInputProps {
   name: string
@@ -45,12 +46,7 @@ export default function PhoneInput({ ...props }: PhoneInputProps) {
         type="text"
       />
 
-      <span
-        className="block tracking-wide text-xs font-bold mb-2"
-        style={{ color: 'red' }}
-      >
-        {meta.touched && meta.error}
-      </span>
+      <InputError meta={meta} />
     </>
   )
 }

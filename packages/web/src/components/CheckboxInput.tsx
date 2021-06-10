@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField } from 'formik'
+import InputError from './InputError'
 
 interface CheckboxInputProps {
   name: string
@@ -22,12 +23,7 @@ export default function CheckboxInput({
         {children}
       </label>
 
-      <span
-        className="block tracking-wide text-xs font-bold mb-2"
-        style={{ color: 'red' }}
-      >
-        {meta.touched && meta.error}
-      </span>
+      <InputError meta={meta} />
     </>
   )
 }

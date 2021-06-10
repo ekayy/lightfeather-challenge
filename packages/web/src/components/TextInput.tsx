@@ -1,5 +1,6 @@
 import React from 'react'
 import { useField } from 'formik'
+import InputError from './InputError'
 
 interface TextInputProps {
   name: string
@@ -19,12 +20,7 @@ export default function TextInput({ ...props }: TextInputProps) {
       </label>
       <input {...field} {...props} type="text" />
 
-      <span
-        className="block tracking-wide text-xs font-bold mb-2"
-        style={{ color: 'red' }}
-      >
-        {meta.touched && meta.error}
-      </span>
+      <InputError meta={meta} />
     </>
   )
 }
