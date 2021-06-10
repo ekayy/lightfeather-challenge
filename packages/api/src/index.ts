@@ -6,6 +6,7 @@ import { last } from 'lodash'
 
 import { __prod__, COOKIE_NAME, ALLOWED_DOMAINS } from './constants'
 import supervisors from './endpoints/supervisors'
+import submit from './endpoints/submit'
 import health from './endpoints/health'
 
 require('dotenv').config({
@@ -33,7 +34,7 @@ const main = async () => {
   app.use((req, _, next) => {
     const cookie = req.headers.cookie
 
-    console.log('Request Headers:', req.headers)
+    // console.log('Request Headers:', req.headers)
 
     if (cookie) {
       try {
@@ -84,6 +85,7 @@ const main = async () => {
   app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
   app.get('/api/supervisors', supervisors)
+  app.post('/api/submit', submit)
 
   app.get('/api/health', health)
 
