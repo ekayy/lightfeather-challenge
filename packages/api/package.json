@@ -18,9 +18,9 @@
   },
   "scripts": {
     "build": "npm -s run clean && tsc",
-    "prod": "node dist/index.js",
-    "dev": "NODE_ENV=development DEBUG=* ts-node-dev --respawn --transpile-only --no-notify src/index.ts",
-    "test": "jest"
+    "prod": "node dist/server.js",
+    "dev": "NODE_ENV=development DEBUG=* ts-node-dev --respawn --transpile-only --no-notify src/server.ts",
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
