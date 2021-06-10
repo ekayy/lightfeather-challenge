@@ -14,9 +14,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "noFallthroughCasesInSwitch": true,
-    "typeRoots": ["./src/types"]
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "exclude": ["src/generated/graphql.tsx"]
+  "include": ["src"]
 }
