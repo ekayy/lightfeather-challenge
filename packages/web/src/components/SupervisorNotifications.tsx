@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import ky from 'ky'
+import * as Yup from 'yup'
 
 interface FormValues {
   firstName: string
   lastName: string
   email?: string
-  phoneNumber?: string
+  phone?: string
   supervisor: string
 }
+
+const validationSchema = Yup.object({
+  firstName: Yup.string()
+    .max(15, 'Must be 20 characters or less')
+    .matches(/[a-z]/i, 'Must only contain letters')
+    .required('Required'),
+  lastName: Yup.string()
+    .max(20, 'Must be 20 characters or less')
+    .matches(/[a-z]/i, 'Must only contain letters')
+    .required('Required'),
+  email: Yup.string().email('Invalid email address'),
+  phone: Yup.string(),
+  supervisor: Yup.string().required('Required'),
+})
 
 export default function SupervisorNotifications() {
   const [supervisors, setSupervisors] = useState<string[]>([])
@@ -33,6 +48,10 @@ export default function SupervisorNotifications() {
     }
   }, [])
 
+  const handleSubmit = (values: FormValues) => {
+    console.log(JSON.stringify(values, null, 2))
+  }
+
   return (
     <div>
       <div>
@@ -43,12 +62,11 @@ export default function SupervisorNotifications() {
             firstName: '',
             lastName: '',
             email: '',
-            phoneNumber: '',
+            phone: '',
             supervisor: '',
           }}
-          onSubmit={(values: FormValues) => {
-            console.log(JSON.stringify(values, null, 2))
-          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
         >
           <Form className="flex-col">
             <div>
@@ -64,31 +82,26 @@ export default function SupervisorNotifications() {
             </div>
 
             <div>
-              <label htmlFor="lastName">
-                How would you prefer to be notified?
-              </label>
-
-              <label>
-                <Field name="acceptEmail" type="checkbox" />
-                Email
-              </label>
+              <p>How would you prefer to be notified?</p>
 
               <div>
+                <label>
+                  <Field name="acceptEmail" type="checkbox" />
+                  Email
+                </label>
+
                 <Field name="email" type="text" placeholder="Email Address" />
                 <ErrorMessage name="email" />
               </div>
+
               <div>
                 <label>
                   <Field name="acceptPhone" type="checkbox" />
                   Phone Number
                 </label>
 
-                <Field
-                  name="phoneNumber"
-                  type="text"
-                  placeholder="Phone Number"
-                />
-                <ErrorMessage name="phoneNumber" />
+                <Field name="phone" type="text" placeholder="Phone Number" />
+                <ErrorMessage name="phone" />
               </div>
             </div>
 
