@@ -66,78 +66,87 @@ export default function SupervisorNotifications() {
   }
 
   return (
-    <div>
-      <div>
-        <h1>Notifications Form</h1>
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="mb-10 text-2xl">Notifications Form</h1>
 
-        <Formik
-          initialValues={{
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            supervisor: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={handleSubmit}
-        >
-          <Form className="w-full max-w-lg">
-            <div>
-              <label htmlFor="firstName">First Name</label>
+      <Formik
+        initialValues={{
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          supervisor: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form className="w-full max-w-lg">
+          <div className="flex -mx-3 mb-6">
+            <div className="w-full md:w-1/2 px-3 mb-3 md:mb-0">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="firstName"
+              >
+                First Name
+              </label>
               <Field name="firstName" type="text" />
               <ErrorMessage name="firstName" />
             </div>
 
-            <div>
-              <label htmlFor="lastName">Last Name</label>
+            <div className="w-full md:w-1/2 px-3">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="lastName"
+              >
+                Last Name
+              </label>
               <Field name="lastName" type="text" />
               <ErrorMessage name="lastName" />
             </div>
+          </div>
 
-            <div>
-              <p>How would you prefer to be notified?</p>
+          <div>
+            <p className="mb-3">How would you prefer to be notified?</p>
 
-              <div>
-                <label>
-                  <Field name="acceptEmail" type="checkbox" />
-                  Email
-                </label>
-
+            <div className="flex -mx-3 mb-6">
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <Field name="email" type="text" placeholder="Email Address" />
                 <ErrorMessage name="email" />
               </div>
 
-              <div>
-                <label>
-                  <Field name="acceptPhone" type="checkbox" />
-                  Phone Number
-                </label>
-
+              <div className="w-full md:w-1/2 px-3">
                 <Field name="phone" type="text" placeholder="Phone Number" />
                 <ErrorMessage name="phone" />
               </div>
             </div>
+          </div>
 
-            <div>
-              <label htmlFor="supervisor">Supervisor</label>
-              <Field name="supervisor" as="select">
-                <option value="">Select...</option>
-                {supervisors.map(s => (
-                  <option key={s}>{s}</option>
-                ))}
-              </Field>
-              <ErrorMessage name="supervisor" />
-            </div>
+          <div className="flex flex-col justify-center">
+            <label
+              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              htmlFor="supervisor"
+            >
+              Supervisor
+            </label>
+            <Field name="supervisor" as="select">
+              <option value="">Select...</option>
+              {supervisors.map(s => (
+                <option key={s}>{s}</option>
+              ))}
+            </Field>
+            <ErrorMessage name="supervisor" />
+          </div>
 
+          <div className="mt-3">
             <button
-              className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+              className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
             >
-              Sign In
+              Submit
             </button>
-          </Form>
-        </Formik>
-      </div>
+          </div>
+        </Form>
+      </Formik>
     </div>
   )
 }
